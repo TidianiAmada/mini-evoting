@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Résultats de l'Élection</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidat</th>
+                <th>Total Voix</th>
+                <th>Pourcentage</th>
+                <th>Rang</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for voix in results %}
+            <tr>
+                <td>{{ voix.candidat.nom }} {{ voix.candidat.prenom }}</td>
+                <td>{{ voix.total_voix }}</td>
+                <td>{{ voix.pourcentage }}%</td>
+                <td>{{ voix.rang }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
