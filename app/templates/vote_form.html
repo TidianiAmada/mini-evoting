@@ -7,13 +7,13 @@
     <label for="premier_choix">Premier Choix:</label>
     <select name="premier_choix">
         {% for candidat in candidats %}
-        <option value="{{ candidat.id }}">{{ candidat.nom }} {{ candidat.prenom }}</option>
+        <option value="{{ candidat.id_cni }}">{{ candidat.nom }} {{ candidat.prenom }}</option>
         {% endfor %}
     </select><br>
     <label for="second_choix">Second Choix:</label>
     <select name="second_choix">
         {% for candidat in candidats %}
-        <option value="{{ candidat.id }}">{{ candidat.nom }} {{ candidat.prenom }}</option>
+        <option value="{{ candidat.id_cni }}">{{ candidat.nom }} {{ candidat.prenom }}</option>
         {% endfor %}
     </select><br>
     <button type="submit">Soumettre le Vote</button>

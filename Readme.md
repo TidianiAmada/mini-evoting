@@ -1,5 +1,5 @@
 
-# Application de Vote Électronique (Raked voting method)
+# Application de Vote Électronique (Ranked voting method)
 
 ## Description
 Cette application de vote électronique permet aux électeurs de classer les candidats par ordre de préférence lors d'une élection. Elle est conçue en utilisant **Flask** (framework web Python), **SQLAlchemy** pour la gestion de la base de données MySQL, et le système de vote par classement pour déterminer le gagnant.
