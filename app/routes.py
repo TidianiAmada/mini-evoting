@@ -117,8 +117,8 @@ def register_electeur():
 def vote():
     if request.method == 'POST':
         cne = request.form['cne']
-        id_cnd_premier_choix = request.form['id_cnd_premier_choix']
-        id_cnd_second_choix = request.form['id_cnd_second_choix']
+        id_cnd_premier_choix = request.form['premier_choix']
+        id_cnd_second_choix = request.form['second_choix']
         date_de_vote = datetime.now()
         
         # Save the vote to the Vote table

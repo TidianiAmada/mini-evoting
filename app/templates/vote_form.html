@@ -2,6 +2,8 @@
 {% block content %}
 <h2>Votez par ordre de préférences</h2>
 <form method="POST">
+    <label for="cne">CNE :</label>
+    <textarea name="cne" required></textarea><br>
     <label for="premier_choix">Premier Choix:</label>
     <select name="premier_choix">
         {% for candidat in candidats %}
