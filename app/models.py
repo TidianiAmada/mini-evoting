@@ -14,7 +14,7 @@ class Organisateur(db.Model):
     cni = db.Column(db.String(20), primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     mot_de_passe = db.Column(db.String(60), nullable=False)
-    election_id = db.Column(db.Integer, db.ForeignKey('election.id_election'), nullable=False)
+    election_id = db.Column(db.Integer, db.ForeignKey('election.id_election'), nullable=True)
 
 class Electeur(db.Model):
     cne = db.Column(db.String(20), primary_key=True)

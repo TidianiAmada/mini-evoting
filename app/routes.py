@@ -45,20 +45,36 @@ def login():
 def create_election():
     if request.method == 'POST':
         titre = request.form['titre']
-        date_heure_debut = request.form['date_heure_debut']
-        date_heure_fin = request.form['date_heure_fin']
+        date_heure_debut = request.form['date_debut']  # Updated to match the form field name
+        date_heure_fin = request.form['date_fin']      # Updated to match the form field name
         modalites = request.form['modalites']
-        organisateur_id = request.form['organisateur_id']  # Organisateur should already exist
+        organisateur_cni = request.form['organisateur_cni']  # Assuming CNI of Organisateur is provided
         
+        # Fetch the Organisateur using the CNI
+        organisateur = Organisateur.query.filter_by(cni=organisateur_cni).first()
+
+        if not organisateur:
+            flash('Organisateur not found')
+            return redirect(url_for('main.create_election'))
+
         # Save to Election table
-        election = Election(titre=titre, date_heure_debut=date_heure_debut, 
-                            date_heure_fin=date_heure_fin, modalites=modalites, 
-                            organisateur=organisateur_id)
+        election = Election(titre=titre, 
+                            date_heure_debut=date_heure_debut, 
+                            date_heure_fin=date_heure_fin, 
+                            modalites=modalites)
+
+        # Link the Organisateur to this election
+        election.organisateur = organisateur
+
         db.session.add(election)
         db.session.commit()
+        election = Election.query.filter_by(titre=titre).first()
 
-        return redirect(url_for('main.create_candidate', election_id=election.id))
+        return redirect(url_for('main.create_candidate', election_id=election.id_election))
+    
     return render_template('election_form.html')
+
+
 
 # Create a candidate
 @main.route('/candidat/create', methods=['GET', 'POST'])
