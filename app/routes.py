@@ -95,6 +95,7 @@ def create_candidate():
         return redirect(url_for('main.create_candidate', election_id=election_id))
     return render_template('candidate_form.html', election_id=election_id)
 
+
 # Register a voter
 @main.route('/electeur/register', methods=['GET', 'POST'])
 def register_electeur():
@@ -109,7 +110,7 @@ def register_electeur():
         db.session.commit()
 
         return redirect(url_for('main.vote'))
-    return render_template('register_electeur.html')
+    return render_template('voter_form.html')
 
 # Voting route
 @main.route('/vote', methods=['GET', 'POST'])
@@ -126,10 +127,10 @@ def vote():
         db.session.add(vote)
         db.session.commit()
         
-        return redirect(url_for('main.results'))
+        return redirect(url_for('main.login'))
     
     candidats = Candidat.query.all()  # Get all candidates for display
-    return render_template('vote.html', candidats=candidats)
+    return render_template('vote_form.html', candidats=candidats)
 
 # Step 5: Displaying Results
 

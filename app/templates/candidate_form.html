@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Enregistrer un candidat à l'élection</h2>
+<form method="POST">
+    <label for="nom">Nom:</label>
+    <input type="text" name="nom" required><br>
+    <label for="prenom">Prenom du Candidat</label>
+    <input type="text" name="prenom" required><br>
+    <label for="photo">Photo:</label>
+    <textarea name="photo"></textarea><br>
+    
+    <label for="profession">Profession</label>
+    <input type="text" name="profession" required><br>
+
+    <button type="submit">Créer</button>
+</form>
+{% endblock %}
