@@ -15,6 +15,8 @@ class Organisateur(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     mot_de_passe = db.Column(db.String(60), nullable=False)
     election_id = db.Column(db.Integer, db.ForeignKey('election.id_election'), nullable=True)
+    # org=Organisateur(cni='CNI123',email='organisateur@dge.sn',mot_de_passe='password')
+
 
 class Electeur(db.Model):
     cne = db.Column(db.String(20), primary_key=True)
@@ -32,9 +34,15 @@ class Candidat(db.Model):
 class Vote(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     cne = db.Column(db.String(20), db.ForeignKey('electeur.cne'), nullable=False)
+    
     id_cnd_premier_choix = db.Column(db.Integer, db.ForeignKey('candidat.id_cnd'), nullable=False)
+    cnd_premier_choix = db.relationship('Candidat', foreign_keys=[id_cnd_premier_choix])
+
     id_cnd_second_choix = db.Column(db.Integer, db.ForeignKey('candidat.id_cnd'), nullable=True)
-    date_de_vote = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    cnd_second_choix = db.relationship('Candidat', foreign_keys=[id_cnd_second_choix])
+
+    date_de_vote = db.Column(db.DateTime, default=datetime.now, nullable=False)
+
 
 class Voix(db.Model):
     id = db.Column(db.Integer, primary_key=True)

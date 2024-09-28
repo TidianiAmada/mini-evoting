@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Sign in</h2>
+<form id="userForm" method="POST">
+    <!-- Radio Buttons for Electeur and Organisateur -->
+    <label>
+      <input type="radio" name="user_type" value="electeur" checked> Electeur
+    </label>
+    <label>
+      <input type="radio" name="user_type" value="organisateur"> Organisateur
+    </label>
+    <br>
+  
+    <!-- Electeur Section -->
+    <div id="electeurFields">
+      <label for="cne">CNE:</label>
+      <textarea name="cne"></textarea><br>
+    </div>
+  
+    <!-- Organisateur Section -->
+    <div id="organisateurFields" style="display:none;">
+      <label for="cni">CNI:</label>
+      <textarea name="cni"></textarea><br>
+      <label for="email">Email:</label>
+      <input type="email" name="email"><br>
+      <label for="password">Password:</label>
+      <input type="password" name="password"><br>
+    </div>
+  
+    <button type="submit">Submit</button>
+  </form>
+  
+  <script>
+    const electeurFields = document.getElementById('electeurFields');
+    const organisateurFields = document.getElementById('organisateurFields');
+  
+    document.querySelectorAll('input[name="user_type"]').forEach((radio) => {
+      radio.addEventListener('change', function () {
+        if (this.value === 'electeur') {
+          electeurFields.style.display = 'block';
+          organisateurFields.style.display = 'none';
+        } else {
+          electeurFields.style.display = 'none';
+          organisateurFields.style.display = 'block';
+        }
+      });
+    });
+  </script>
+  
+{% endblock %}

@@ -2,7 +2,8 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from .models import db, Election, Candidat, Electeur, Vote, Voix, Organisateur
 from .services import calculate_results, count_vote
 from datetime import datetime
-
+import csv
+import os
 from werkzeug.security import check_password_hash  # Assuming passwords are hashed
 main = Blueprint('main', __name__)
 
@@ -12,13 +13,19 @@ main = Blueprint('main', __name__)
 def login():
     if request.method == 'POST':
         user_type = request.form['user_type']  # Organisateur or Electeur
-        email_or_cne = request.form['email_or_cne']
-        password = request.form['password']
-
+        
+        print(user_type)
         if user_type == 'organisateur':
+            cni = request.form['cni']
+            password = request.form['password']
+            
+            if not cni or not password:
+                print('CNI and password are required')
+                return redirect(url_for('main.login'))
+            
             # Login as Organisateur
-            user = Organisateur.query.filter_by(email=email_or_cne).first()
-            if user and check_password_hash(user.mot_de_passe, password):
+            user = Organisateur.query.filter_by(cni=cni).first()
+            if user:
                 session['user_id'] = user.cni  # Store CNI in session
                 session['role'] = 'organisateur'
                 return redirect(url_for('main.create_election'))
@@ -26,16 +33,38 @@ def login():
                 flash('Invalid credentials for Organisateur')
 
         elif user_type == 'electeur':
+            cne = request.form['cne']
+            
+            if not cne:
+                flash('CNE is required for Electeur')
+                return redirect(url_for('main.login'))
+
+            # Get the path to the CSV file in the project root
+            csv_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'fichier_electoral.csv')
+
             # Login as Electeur
-            user = Electeur.query.filter_by(cne=email_or_cne).first()
-            if user:
-                session['user_id'] = user.cne  # Store CNE in session
-                session['role'] = 'electeur'
-                return redirect(url_for('main.vote'))
-            else:
+            cne_found = False
+            with open(csv_file_path, newline='', encoding='ISO-8859-1') as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row in reader:
+                    if row['cne'] == cne:
+                        cne_found = True
+                        session['user_id'] = row['cne']  # Store CNE in session
+                        session['role'] = 'electeur'
+                        elc=Electeur(cne=cne,nom=row['nom'],prenom=row['prenom'])
+                        db.session.add(elc)
+                        db.session.commit()
+                        return redirect(url_for('main.vote'))
+
+            if not cne_found:
                 flash('Invalid credentials for Electeur')
 
+    # Clear only organisateur-specific session data
+    session.pop('user_id', None)  # Assuming 'user_id' holds the organiser's session info
+    session.pop('role', None)  # Remove the 'role' session
     return render_template('login.html')
+
+
 
 
 
@@ -122,10 +151,19 @@ def vote():
         date_de_vote = datetime.now()
         
         # Save the vote to the Vote table
-        vote = Vote(cne=cne, id_cnd_premier_choix=id_cnd_premier_choix, 
-                    id_cnd_second_choix=id_cnd_second_choix, date_de_vote=date_de_vote)
+        vote = Vote(cne=cne, date_de_vote=date_de_vote)
+        cnd_premier_choix= Candidat.query.filter_by(id_cnd=id_cnd_premier_choix).first()
+        cnd_second_choix=Candidat.query.filter_by(id_cnd=id_cnd_second_choix).first()
+        
+        vote.cnd_premier_choix=cnd_premier_choix
+        vote.cnd_second_choix=cnd_second_choix
         db.session.add(vote)
         db.session.commit()
+         # After vote is processed, clear the session
+        session.clear()  # This will remove all data from the session
+
+        # Optionally, you can flash a message to confirm the user has voted
+        flash('Thank you for voting. You have been logged out.')
         
         return redirect(url_for('main.login'))
     
