@@ -10,6 +10,7 @@ Cette application de vote électronique permet aux électeurs de classer les can
 - Processus de vote sécurisé avec classement de préférence (1er et 2ème choix)
 - Calcul des résultats selon la méthode de vote par classement (redistribution des voix si aucun candidat n'obtient la majorité absolue au premier tour)
 - Affichage des résultats des élections en temps réel une fois les votes clôturés
+- Importation des électeurs via un fichier CSV
 
 ## Technologies utilisées
 - **Python 3.x**
@@ -67,25 +68,22 @@ L'application sera accessible à l'adresse `http://127.0.0.1:5000/`.
 
 ## Utilisation
 
-### 1. Planification de l'élection
-- Un **Organisateur** peut créer une élection en spécifiant le titre, la date et l'heure, les candidats et les modalités.
-- Chaque **Candidat** peut être enregistré avec un nom, une photo et une profession.
-
-### 2. Inscription des électeurs
-- L'**Organisateur** inscrit les électeurs en fournissant leur numéro d'électeur (CNE) et leur nom.
-
-### 3. Processus de vote
-- Un **Électeur** peut se connecter à la plateforme avec son identifiant sécurisé.
-- L'électeur sélectionne un premier et un second choix parmi les candidats proposés.
-- Une fois le vote soumis, il est enregistré et comptabilisé.
-
-### 4. Calcul des résultats
-- Les votes de premier choix sont comptés.
-- Si aucun candidat n'obtient la majorité absolue, les votes du candidat ayant le moins de voix sont redistribués en fonction du second choix.
-- Le processus continue jusqu'à ce qu'un candidat obtienne la majorité.
-
-### 5. Affichage des résultats
-- À la fin de l'élection, les résultats sont affichés, montrant le nombre total de voix et le pourcentage obtenu par chaque candidat.
+#### 1. Planification de l'élection
+Un Organisateur peut créer une élection en spécifiant le titre, la date, l'heure, les candidats et les modalités.
+Chaque Candidat peut être enregistré avec un nom, une photo, et une profession.
+#### 2. Inscription des électeurs
+L'Organisateur inscrit les électeurs en les important via un fichier CSV contenant leur numéro d'électeur (CNE), leur nom et prénom.
+Les électeurs peuvent également être inscrits manuellement à partir d'une interface.
+#### 3. Processus de vote
+Un Électeur peut se connecter à la plateforme avec son identifiant sécurisé (CNE pour les électeurs).
+L'électeur sélectionne un premier et un second choix parmi les candidats proposés.
+Une fois le vote soumis, il est enregistré et comptabilisé.
+#### 4. Calcul des résultats
+Les votes de premier choix sont comptés.
+Si aucun candidat n'obtient la majorité absolue, les votes du candidat ayant le moins de voix sont redistribués en fonction du second choix.
+Le processus continue jusqu'à ce qu'un candidat obtienne la majorité.
+#### 5. Affichage des résultats
+À la fin de l'élection, les résultats sont affichés, montrant le nombre total de voix et le pourcentage obtenu par chaque candidat.
 
 ## Arborescence du projet
 
