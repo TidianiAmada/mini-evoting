@@ -52,16 +52,18 @@ Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur 
    - Créez une base de données MySQL pour l'application.
    - Mettez à jour la configuration de la base de données dans le fichier `config.py` avec vos informations MySQL.
 
-5. Initialisez la base de données :
+5. Initialisez la base de données si elle n'est pas automatiquement créer :
    ```bash
-   flask db init
-   flask db migrate
-   flask db upgrade
+   flask shell
+   from app import db
+   db.create_all()
    ```
 
 6. Démarrez le serveur Flask :
    ```bash
    flask run
+   ou sur terminal
+   python run -m app.app
    ```
 
 L'application sera accessible à l'adresse `http://127.0.0.1:5000/`.
