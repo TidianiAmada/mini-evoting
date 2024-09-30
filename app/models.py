@@ -42,7 +42,7 @@ class Vote(db.Model):
     cnd_second_choix = db.relationship('Candidat', foreign_keys=[id_cnd_second_choix])
 
     date_de_vote = db.Column(db.DateTime, default=datetime.now, nullable=False)
-
+    election_id = db.Column(db.Integer, db.ForeignKey('election.id_election'), nullable=True)
 
 class Voix(db.Model):
     id = db.Column(db.Integer, primary_key=True)

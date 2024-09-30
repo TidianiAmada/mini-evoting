@@ -54,7 +54,7 @@ def login():
                         elc=Electeur(cne=cne,nom=row['nom'],prenom=row['prenom'])
                         db.session.add(elc)
                         db.session.commit()
-                        return redirect(url_for('main.vote'))
+                        return redirect(url_for('main.vote', election_id=row['election_id']))
 
             if not cne_found:
                 flash('Invalid credentials for Electeur')
@@ -144,6 +144,7 @@ def register_electeur():
 # Voting route
 @main.route('/vote', methods=['GET', 'POST'])
 def vote():
+    election_id = request.args.get('election_id')
     if request.method == 'POST':
         cne = request.form['cne']
         id_cnd_premier_choix = request.form['premier_choix']
@@ -151,7 +152,7 @@ def vote():
         date_de_vote = datetime.now()
         
         # Save the vote to the Vote table
-        vote = Vote(cne=cne, date_de_vote=date_de_vote)
+        vote = Vote(cne=cne, date_de_vote=date_de_vote, election_id=election_id)
         cnd_premier_choix= Candidat.query.filter_by(id_cnd=id_cnd_premier_choix).first()
         cnd_second_choix=Candidat.query.filter_by(id_cnd=id_cnd_second_choix).first()
         
@@ -175,6 +176,7 @@ def vote():
 @main.route('/results/<int:election_id>', methods=['GET'])
 def results(election_id):
     results = count_vote(election_id)
+    
     return render_template('results.html', results=results)
 
 

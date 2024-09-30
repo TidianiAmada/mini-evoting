@@ -90,14 +90,14 @@ def count_vote(election_id):
 
 def save_results(election_id, candidate_votes):
     # Clear previous results if any
-    Voix.query.filter_by(election_id=election_id).delete()
+    Voix.query.filter_by(id_election=election_id).delete()
 
     # Save the final vote counts and percentages for each candidate
     for candidate_id, vote_count in candidate_votes.items():
         total_votes = sum(candidate_votes.values())
         pourcentage = (vote_count / total_votes) * 100
         rang = sorted(candidate_votes.values(), reverse=True).index(vote_count) + 1
-        
+
         voix = Voix(
             id_election=election_id,
             id_cnd=candidate_id,
@@ -109,5 +109,5 @@ def save_results(election_id, candidate_votes):
 
     db.session.commit()
 
-    # Return the final result for each candidate
-    return Voix.query.filter_by(election_id=election_id).all()
+    # Return the final result for each candidate, including candidate's nom and prenom
+    return db.session.query(Voix, Candidat).join(Candidat, Voix.id_cnd == Candidat.id_cnd).filter(Voix.id_election == election_id).all()

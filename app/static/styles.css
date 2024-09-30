@@ -1,0 +1,121 @@
+/* Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9; /* Light background */
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #f0f8ff; /* Lighter shade for the header */
+    color: #004400; /* Dark green for text */
+    padding: 20px;
+    text-align: center;
+    border-bottom: 4px solid #ff0; /* Yellow border representing Senegalese flag */
+}
+
+h1, h2 {
+    margin: 0;
+    padding: 10px 0;
+    color: #004400; /* Dark green */
+}
+
+main {
+    padding: 20px;
+}
+
+/* Form Styles */
+form {
+    background-color: white;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #004400; /* Dark green */
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    background-color: #004400; /* Green from Senegalese flag */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #ff0; /* Yellow on hover */
+    color: #004400; /* Green text */
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    font-size: 16px;
+}
+
+th {
+    background-color: #004400; /* Green */
+    color: white;
+}
+
+td {
+    background-color: #fff;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Senegal Flag Colors Borders */
+input[type="radio"]:checked + label {
+    color: #ff0000; /* Red */
+}
+
+#userForm input[type="radio"]:hover {
+    outline: 2px solid #ff0; /* Yellow hover effect */
+}
+
+input:focus, textarea:focus, select:focus {
+    outline-color: #ff0; /* Yellow focus */
+}
+
+/* Footer Styling */
+footer {
+    background-color: #004400; /* Green footer */
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    border-top: 4px solid #ff0; /* Yellow top border */
+}

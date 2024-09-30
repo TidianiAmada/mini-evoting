@@ -12,5 +12,9 @@ def create_app():
     # Register routes
     from .routes import main
     app.register_blueprint(main)
-
+    # Create database schema
+    # Create database schema
+    with app.app_context():
+        db.create_all()
+        
     return app
