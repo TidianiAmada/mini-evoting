@@ -63,7 +63,7 @@ Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur 
    ```bash
    flask run
    ou sur terminal
-   python run -m app.app
+   python -m app.app
    ```
 
 L'application sera accessible à l'adresse `http://127.0.0.1:5000/`.
