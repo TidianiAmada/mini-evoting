@@ -57,6 +57,12 @@ Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur 
    flask shell
    from app import db
    db.create_all()
+   
+   ```
+   Aller sur SQL et creer un organisateur
+   ``` 
+    insert organisateur (cni, email, mot_de_passe)
+    values ('CNI', 'organisateur@dge.sn','password');
    ```
 
 6. Démarrez le serveur Flask :
