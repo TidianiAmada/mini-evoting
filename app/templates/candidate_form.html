@@ -1,22 +1,30 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Enregistrer un candidat à l'élection</h2>
-<form method="POST">
-    <label for="nom">Nom:</label>
-    <input type="text" name="nom" required><br>
-    <label for="prenom">Prenom du Candidat</label>
-    <input type="text" name="prenom" required><br>
-    <label for="photo">Photo:</label>
-    <textarea name="photo"></textarea><br>
-    
-    <label for="profession">Profession</label>
-    <input type="text" name="profession" required><br>
+    <h2>ENREGISTRER UN CANDIDAT</h2>
+    <form method="POST" style="margin-bottom: 20px;">
+        <div style="margin-bottom: 10px;">
+            <label for="nom">Nom:</label>
+            <input type="text" name="nom" required style="width: 100%; padding: 5px;">
+        </div>
+        <div style="margin-bottom: 10px;">
+            <label for="prenom">Prénom du Candidat:</label>
+            <input type="text" name="prenom" required style="width: 100%; padding: 5px;">
+        </div>
+        <div style="margin-bottom: 10px;">
+            <label for="photo">Photo:</label>
+            <textarea name="photo" style="width: 100%; padding: 5px;"></textarea>
+        </div>
+        <div style="margin-bottom: 10px;">
+            <label for="profession">Profession:</label>
+            <input type="text" name="profession" required style="width: 100%; padding: 5px;">
+        </div>
+        <button type="submit" style="margin-top: 10px;">Créer</button>
+    </form>
 
-    <button type="submit">Créer</button>
-</form>
+    <form method="GET" action="{{ url_for('main.dashboard') }}">
+        <div style="text-align: center; margin-top: 20px;">
+            <button type="submit">Accueil</button>
+        </div>
+    </form>
 
-<!-- Button to clear organisateur session and redirect to login -->
-<form method="GET" action="{{ url_for('main.login') }}">
-    <button type="submit" style="margin-top: 20px;">Logout Organisateur</button>
-</form>
 {% endblock %}

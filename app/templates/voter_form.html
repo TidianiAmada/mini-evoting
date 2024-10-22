@@ -1,15 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Enregistrer un candidat à l'élection</h2>
+<h2>AJOUTER UN ELECTEUR</h2>
 <form method="POST">
-    <label for="nom">Nom:</label>
-    <input type="text" name="nom" required><br>
-    <label for="prenom">Prenom de l'electeur</label>
-    <input type="text" name="prenom" required><br>
-    <label for="cne">CNE :</label>
-    <textarea name="cne" required></textarea><br>
-    
-
-    <button type="submit">Créer</button>
+    <div class="mb-3">
+        <label for="cne" class="form-label">CNE</label>
+        <input type="text" class="form-control" id="cne" name="cne" required>
+    </div>
+    <div class="mb-3">
+        <label for="nom" class="form-label">Nom</label>
+        <input type="text" class="form-control" id="nom" name="nom" required>
+    </div>
+    <div class="mb-3">
+        <label for="prenom" class="form-label">Prénom</label>
+        <input type="text" class="form-control" id="prenom" name="prenom" required>
+    </div>
+    <div class="mb-3">
+        <label for="election_id" class="form-label">Election ID</label>
+        <input type="text" class="form-control" id="election_id" name="election_id" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Ajouter Électeur</button>
 </form>
 {% endblock %}

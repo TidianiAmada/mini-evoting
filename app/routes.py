@@ -9,7 +9,7 @@ main = Blueprint('main', __name__)
 
 
 # Login for Organisateurs and Electeurs
-@main.route('/login', methods=['GET', 'POST'])
+@main.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         user_type = request.form['user_type']  # Organisateur or Electeur
@@ -28,7 +28,8 @@ def login():
             if user:
                 session['user_id'] = user.cni  # Store CNI in session
                 session['role'] = 'organisateur'
-                return redirect(url_for('main.create_election'))
+                # return redirect(url_for('main.create_election'))
+                return redirect(url_for('main.dashboard'))
             else:
                 flash('Invalid credentials for Organisateur')
 
@@ -64,8 +65,44 @@ def login():
     session.pop('role', None)  # Remove the 'role' session
     return render_template('login.html')
 
+# Dashboard
+@main.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+    election_id = 3
+    nbre_candidats = Candidat.query.count()
+    nbre_electeurs = Electeur.query.count()
+    nbre_organisateurs = Organisateur.query.count()
+    results = count_vote(election_id)
+    return render_template('dashboard.html', 
+    nbre_candidats=nbre_candidats, 
+    nbre_electeurs=nbre_electeurs, 
+    nbre_organisateurs=nbre_organisateurs,
+    results=results)
 
+# Electeurs
+@main.route('/electeur', methods=['GET'])
+def electeur():
+    # Chemin du fichier CSV
+    csv_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'fichier_electoral.csv')
+    
+    # Liste pour stocker les électeurs
+    electeurs = []
+    
+    # Lire le fichier CSV
+    with open(csv_file_path, newline='', encoding='ISO-8859-1') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            electeurs.append(row)  # Ajouter chaque électeur à la liste
+    
+    # Passer les données au template
+    return render_template('electeur.html', electeurs=electeurs)
 
+# Candidats
+@main.route('/candidat', methods=['GET'])
+def candidat():
+    # Récupérer tous les candidats de la base de données 
+    candidats = Candidat.query.all() 
+    return render_template('candidat.html', candidats=candidats)
 
 
 
@@ -126,20 +163,47 @@ def create_candidate():
 
 
 # Register a voter
+# @main.route('/electeur/register', methods=['GET', 'POST'])
+# def register_electeur():
+#     if request.method == 'POST':
+#         cne = request.form['cne']
+#         nom = request.form['nom']
+#         prenom = request.form['prenom']
+        
+#         # Save to Electeur table
+#         electeur = Electeur(cne=cne, nom=nom, prenom=prenom)
+#         db.session.add(electeur)
+#         db.session.commit()
+
+#         return redirect(url_for('main.vote'))
+#     return render_template('voter_form.html')
+
 @main.route('/electeur/register', methods=['GET', 'POST'])
 def register_electeur():
     if request.method == 'POST':
+        # Récupérer les données du formulaire
         cne = request.form['cne']
         nom = request.form['nom']
         prenom = request.form['prenom']
-        
-        # Save to Electeur table
+        election_id = request.form['election_id']
+
+        # Ajouter l'électeur à la base de données
         electeur = Electeur(cne=cne, nom=nom, prenom=prenom)
         db.session.add(electeur)
         db.session.commit()
 
-        return redirect(url_for('main.vote'))
+        # Ajouter l'électeur au fichier CSV
+        csv_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'fichier_electoral.csv')
+        with open(csv_file_path, 'a', encoding='ISO-8859-1') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow([cne, nom, prenom, election_id])  # Assure-toi que l'ordre correspond aux colonnes du CSV
+
+        # Rediriger vers la liste des électeurs avec un message de confirmation
+        flash('Électeur ajouté avec succès')
+        return redirect(url_for('main.electeur'))
+
     return render_template('voter_form.html')
+
 
 # Voting route
 @main.route('/vote', methods=['GET', 'POST'])
@@ -178,5 +242,7 @@ def results(election_id):
     results = count_vote(election_id)
     
     return render_template('results.html', results=results)
+
+
 
 

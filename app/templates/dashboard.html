@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+    <link rel="stylesheet" href="static/dashboard.css">
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="topbar">
+            <div class="logo">
+                <h2>E-Vote</h2>
+            </div>
+            <!-- <div class="search">
+                <input type="text" name="search" placeholder="search here">
+                <label for="search"><i class="fas fa-search"></i></label>
+            </div> -->
+            <!-- <i class="fas fa-bell"></i>
+            <div class="user">
+                <img src="img/user.png" alt="">
+            </div> -->
+        </div>
+        <div class="sidebar">
+            <ul>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-home"></i>
+                        <div>Dashboard</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('main.create_election') }}">
+                        <i class="fas fa-balance-scale"></i>
+                        <div>Elections</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('main.candidat') }}">
+                        <i class="fas fa-user-check"></i>
+                        <div>Candidats</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('main.electeur') }}">
+                        <i class="fas fa-users"></i>
+                        <div>Electeurs</div>
+                    </a>
+                </li>
+    
+                <br><br>
+                <li>
+                    <a href="{{ url_for('main.login') }}">
+                        
+                        <i class="fas fa-sign-out-alt"></i>
+                        <div>Deconnexion</div>
+                    </a>
+                </li> 
+            </ul>
+        </div>
+        <div class="main">
+            <div class="cards">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="number">{{nbre_candidats}}</div>
+                        <div class="card-name">Candidats</div>
+                    </div>
+                    <div class="icon-box">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="number">{{nbre_electeurs}}</div>
+                        <div class="card-name">Electeurs</div>
+                    </div>
+                    <div class="icon-box">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="number">{{ nbre_organisateurs }}</div>
+                        <div class="card-name">Organisateurs</div>
+                    </div>
+                    <div class="icon-box">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    
+                </div>
+            </div>
+            <h2><center>RESULTATS DE L'ELECTION</center></h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Candidat</th>
+                        <th>Total Voix</th>
+                        <th>Pourcentage</th>
+                        <th>Rang</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for voix in results %}
+                    <tr>
+                        <td>{{ voix.Candidat.nom }} {{ voix.Candidat.prenom }}</td>
+                        <td>{{ voix.Voix.total_voix }}</td>
+                        <td>{{ voix.Voix.pourcentage }}%</td>
+                        <td>{{ voix.Voix.rang }}</td>
+                    </tr>            
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+    <script src="static/chart1.js"></script>
+    <script src="static/chart2.js"></script>
+</body>
+
+</html>

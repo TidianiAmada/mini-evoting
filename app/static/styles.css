@@ -5,20 +5,21 @@ body {
     color: #333;
     margin: 0;
     padding: 0;
+    overflow: hidden; /* Masque la barre de défilement */
 }
 
 header {
     background-color: #f0f8ff; /* Lighter shade for the header */
-    color: #004400; /* Dark green for text */
+    color: #299B63; /* Dark green for text */
     padding: 20px;
     text-align: center;
-    border-bottom: 4px solid #ff0; /* Yellow border representing Senegalese flag */
+    border-bottom: 4px solid #299B63; /* Yellow border representing Senegalese flag */
 }
 
 h1, h2 {
     margin: 0;
     padding: 10px 0;
-    color: #004400; /* Dark green */
+    color: #299B63; /* Dark green */
 }
 
 main {
@@ -35,25 +36,58 @@ form {
     max-width: 600px;
     margin: 20px auto;
 }
-
-label {
-    display: block;
-    margin-bottom: 10px;
+/* Form Styles pour le login */
+.form-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: left; /* Alignement à gauche */
+  }
+  
+  .form-title {
+    margin-bottom: 20px;
+    font-size: 24px;
     font-weight: bold;
-    color: #004400; /* Dark green */
-}
-
-input, textarea, select {
+    padding: 10px; /* Espacement interne */
+    background-color: #299B63; /* Couleur de fond similaire au bouton */
+    color: white; /* Couleur du texte */
+    border-radius: 4px; /* Coins arrondis */
+    text-align: center; /* Centrer le texte */
+  }
+  
+  .radio-group {
+    display: flex;
+    justify-content: space-between; /* Espace entre les boutons radio */
+    margin-bottom: 20px;
+  }
+  
+  .radio-label {
+    display: flex;
+    align-items: center; /* Centre verticalement */
+    font-weight: bold;
+  }
+  
+  label {
+    display: block; /* Étiquettes pour CNE, CNI, etc. sont superposées */
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  
+  textarea, input[type="email"], input[type="password"] {
     width: 100%;
     padding: 10px;
+    margin-top: 10px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-button {
-    background-color: #004400; /* Green from Senegalese flag */
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  button {
+    background-color: #299B63; /* Green from Senegalese flag */
     color: white;
     border: none;
     padding: 10px 20px;
@@ -61,12 +95,12 @@ button {
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #ff0; /* Yellow on hover */
-    color: #004400; /* Green text */
-}
+  }
+  
+  button:hover {
+    background-color: #218838;
+  }
+  /* fin Form Styles pour le login */
 
 /* Table Styles */
 table {
@@ -86,7 +120,7 @@ th, td {
 }
 
 th {
-    background-color: #004400; /* Green */
+    background-color: #299B63; /* Green */
     color: white;
 }
 
@@ -104,11 +138,11 @@ input[type="radio"]:checked + label {
 }
 
 #userForm input[type="radio"]:hover {
-    outline: 2px solid #ff0; /* Yellow hover effect */
+    outline: 2px solid greenyellow; /* Yellow hover effect */
 }
 
 input:focus, textarea:focus, select:focus {
-    outline-color: #ff0; /* Yellow focus */
+    outline-color: greenyellow; /* Yellow focus */
 }
 
 /* Footer Styling */
@@ -117,5 +151,5 @@ footer {
     color: white;
     text-align: center;
     padding: 20px 0;
-    border-top: 4px solid #ff0; /* Yellow top border */
+    border-top: 4px solid greenyellow; /* Yellow top border */
 }

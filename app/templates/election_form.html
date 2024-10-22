@@ -1,17 +1,17 @@
-{% extends "base.html" %}
-{% block content %}
-<h2>Organiser une Élection</h2>
-<form method="POST">
-    <label for="titre">Titre:</label>
-    <input type="text" name="titre" required><br>
-    <label for="organisateur_cni">CNI de l'organisateur</label>
-    <input type="text" name="organisateur_cni" required><br>
-    <label for="date_debut">Date et Heure de Début:</label>
-    <input type="datetime-local" name="date_debut" required><br>
-    <label for="date_fin">Date et Heure de Fin:</label>
-    <input type="datetime-local" name="date_fin" required><br>
-    <label for="modalites">Modalités:</label>
-    <textarea name="modalites" required></textarea><br>
-    <button type="submit">Créer</button>
+{% extends "base.html" %} {% block content %}
+<h2>ORGANISER UNE ELECTION</h2>
+<form method="POST" id="electionForm">
+  <label for="titre">Titre:</label>
+  <input type="text" name="titre" required /><br />
+  <label for="organisateur_cni">CNI de l'organisateur</label>
+  <input type="text" name="organisateur_cni" required /><br />
+  <label for="date_debut">Date et Heure de Début:</label>
+  <input type="datetime-local" name="date_debut" required /><br />
+  <label for="date_fin">Date et Heure de Fin:</label>
+  <input type="datetime-local" name="date_fin" required /><br />
+  <label for="modalites">Modalités:</label>
+  <textarea name="modalites" required></textarea><br />
+  <button type="submit">Créer</button>
+  <button type="button" onclick="document.getElementById('electionForm').reset();">Annuler</button>
 </form>
 {% endblock %}

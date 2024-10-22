@@ -1,0 +1,37 @@
+{% extends "base.html" %} 
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>LISTE DES CANDIDATS</h2>
+  <div class="btn-group">
+    <!-- <a href="{{ url_for('main.create_candidate') }}" class="btn btn-primary active" aria-current="page">
+      Ajouter une Candidature</a> -->
+  </div>
+</div>
+<table class="table caption-top">
+    <!-- <caption><u>LITE DES CANDIDATS</u></caption> -->
+    <thead>
+      <tr>
+        <th scope="col">CNE</th>
+        <th scope="col">Prenom</th>
+        <th scope="col">Nom</th>
+        <th scope="col">Profession</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for candidat in candidats %}
+      <tr>
+        <td>{{ candidat.id_cnd }}</td>
+        <td>{{ candidat.prenom }}</td>
+        <td>{{ candidat.nom }}</td>
+        <td>{{ candidat.profession }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <form method="GET" action="{{ url_for('main.dashboard') }}">
+    <div style="text-align: center; margin-top: 20px;">
+        <button type="submit">Retour</button>
+    </div>
+  </form>
+
+{% endblock %}

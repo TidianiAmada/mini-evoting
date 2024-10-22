@@ -22,6 +22,7 @@ class Electeur(db.Model):
     cne = db.Column(db.String(20), primary_key=True)
     nom = db.Column(db.String(100), nullable=False)
     prenom = db.Column(db.String(100), nullable=False)
+    # election_id = db.Column(db.Integer, db.ForeignKey('election.id_election'), nullable=False)
 
 class Candidat(db.Model):
     id_cnd = db.Column(db.Integer, primary_key=True)
@@ -56,3 +57,5 @@ class Resultat(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     titre_election = db.Column(db.String(150), nullable=False)
     list_des_voix = db.Column(db.Text, nullable=False)
+
+

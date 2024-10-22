@@ -1,21 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
 <h2>Votez par ordre de préférences</h2>
-<form method="POST">
-    <label for="cne">CNE :</label>
-    <textarea name="cne" required></textarea><br>
-    <label for="premier_choix">Premier Choix:</label>
-    <select name="premier_choix">
-        {% for candidat in candidats %}
-        <option value="{{ candidat.id_cnd }}" >{{ candidat.nom }} {{ candidat.prenom }}</option>
-        {% endfor %}
-    </select><br>
-    <label for="second_choix">Second Choix:</label>
-    <select name="second_choix">
-        {% for candidat in candidats %}
-        <option value="{{ candidat.id_cnd }}">{{ candidat.nom }} {{ candidat.prenom }}</option>
-        {% endfor %}
-    </select><br>
-    <button type="submit">Soumettre le Vote</button>
+<form method="POST" style="margin-bottom: 20px;">
+    <div style="margin-bottom: 10px;">
+        <label for="cne">CNE :</label>
+        <!-- <textarea name="cne" required style="width: 100%; padding: 5px;"></textarea> -->
+        <input type="text" name="cne" required style="width: 100%; padding: 5px;">
+    </div>
+    <div style="margin-bottom: 10px;">
+        <label for="premier_choix">Premier Choix:</label>
+        <select name="premier_choix" style="width: 100%; padding: 5px;">
+            {% for candidat in candidats %}
+            <option value="{{ candidat.id_cnd }}">{{ candidat.nom }} {{ candidat.prenom }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div style="margin-bottom: 10px;">
+        <label for="second_choix">Second Choix:</label>
+        <select name="second_choix" style="width: 100%; padding: 5px;">
+            {% for candidat in candidats %}
+            <option value="{{ candidat.id_cnd }}">{{ candidat.nom }} {{ candidat.prenom }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" style="margin-top: 10px;">Soumettre le Vote</button>
+</form>
+<form method="GET" action="{{ url_for('main.login') }}">
+    <div style="text-align: center; margin-top: 20px;">
+        <button type="submit">Retour</button>
+    </div>
 </form>
 {% endblock %}

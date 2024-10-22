@@ -1,50 +1,56 @@
-{% extends "base.html" %}
-{% block content %}
-<h2>Sign in</h2>
-<form id="userForm" method="POST">
+{% extends "base.html" %} {% block content %}
+<div class="form-container">
+  <h2 class="form-title">Sign in</h2>
+  <form id="userForm" method="POST">
     <!-- Radio Buttons for Electeur and Organisateur -->
-    <label>
-      <input type="radio" name="user_type" value="electeur" checked> Electeur
-    </label>
-    <label>
-      <input type="radio" name="user_type" value="organisateur"> Organisateur
-    </label>
-    <br>
-  
+    <div class="radio-group">
+      <div class="radio-label">
+        <input type="radio" name="user_type" value="electeur" checked />
+        <label>Electeur</label>
+      </div>
+      <div class="radio-label">
+        <input type="radio" name="user_type" value="organisateur" />
+        <label>Organisateur</label>
+      </div>
+    </div>
+
     <!-- Electeur Section -->
     <div id="electeurFields">
       <label for="cne">CNE:</label>
-      <textarea name="cne"></textarea><br>
+      <textarea name="cne"></textarea><br />
     </div>
-  
+
     <!-- Organisateur Section -->
-    <div id="organisateurFields" style="display:none;">
+    <div id="organisateurFields" style="display: none">
       <label for="cni">CNI:</label>
-      <textarea name="cni"></textarea><br>
+      <input type="cni" name="cni" /><br />
+      <!-- <textarea name="cni"></textarea><br /> -->
       <label for="email">Email:</label>
-      <input type="email" name="email"><br>
+      <input type="email" name="email" /><br />
       <label for="password">Password:</label>
-      <input type="password" name="password"><br>
+      <input type="password" name="password" /><br />
     </div>
-  
-    <button type="submit">Submit</button>
+
+    <button type="submit">Connexion</button>
   </form>
-  
-  <script>
-    const electeurFields = document.getElementById('electeurFields');
-    const organisateurFields = document.getElementById('organisateurFields');
-  
-    document.querySelectorAll('input[name="user_type"]').forEach((radio) => {
-      radio.addEventListener('change', function () {
-        if (this.value === 'electeur') {
-          electeurFields.style.display = 'block';
-          organisateurFields.style.display = 'none';
-        } else {
-          electeurFields.style.display = 'none';
-          organisateurFields.style.display = 'block';
-        }
-      });
+</div>
+
+<!-- JavaScript to toggle fields -->
+<script>
+  const electeurFields = document.getElementById("electeurFields");
+  const organisateurFields = document.getElementById("organisateurFields");
+
+  document.querySelectorAll('input[name="user_type"]').forEach((radio) => {
+    radio.addEventListener("change", function () {
+      if (this.value === "electeur") {
+        electeurFields.style.display = "block";
+        organisateurFields.style.display = "none";
+      } else {
+        electeurFields.style.display = "none";
+        organisateurFields.style.display = "block";
+      }
     });
-  </script>
-  
+  });
+</script>
+
 {% endblock %}
