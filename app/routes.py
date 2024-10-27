@@ -68,7 +68,7 @@ def login():
 # Dashboard
 @main.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
-    election_id = 3
+    election_id = 8
     nbre_candidats = Candidat.query.count()
     nbre_electeurs = Electeur.query.count()
     nbre_organisateurs = Organisateur.query.count()
