@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
     <h2>ENREGISTRER UN CANDIDAT</h2>
-    <form method="POST" style="margin-bottom: 20px;">
+    <form method="POST" enctype="multipart/form-data" style="margin-bottom: 20px;">
         <div style="margin-bottom: 10px;">
             <label for="nom">Nom:</label>
             <input type="text" name="nom" required style="width: 100%; padding: 5px;">
@@ -12,7 +12,7 @@
         </div>
         <div style="margin-bottom: 10px;">
             <label for="photo">Photo:</label>
-            <textarea name="photo" style="width: 100%; padding: 5px;"></textarea>
+            <input type="file" name="photo" required style="width: 100%; padding: 5px;">
         </div>
         <div style="margin-bottom: 10px;">
             <label for="profession">Profession:</label>
@@ -20,6 +20,7 @@
         </div>
         <button type="submit" style="margin-top: 10px;">Créer</button>
     </form>
+
 
     <form method="GET" action="{{ url_for('main.dashboard') }}">
         <div style="text-align: center; margin-top: 20px;">

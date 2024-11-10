@@ -1,10 +1,11 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, flash
+from flask import Blueprint,current_app, render_template, request, redirect, url_for, session, flash
 from .models import db, Election, Candidat, Electeur, Vote, Voix, Organisateur
-from .services import calculate_results, count_vote
+from .services import count_vote
 from datetime import datetime
 import csv
 import os
-from werkzeug.security import check_password_hash  # Assuming passwords are hashed
+
+
 main = Blueprint('main', __name__)
 
 
@@ -143,22 +144,38 @@ def create_election():
 
 
 # Create a candidate
+
 @main.route('/candidat/create', methods=['GET', 'POST'])
 def create_candidate():
     election_id = request.args.get('election_id')
+    
     if request.method == 'POST':
         nom = request.form['nom']
         prenom = request.form['prenom']
         profession = request.form['profession']
-        photo = request.form['photo']
+        photo_file = request.files['photo']
+        
+        # Check if a file was uploaded
+        if photo_file and photo_file.filename:
+            # Ensure the filename is secure
+            filename = photo_file.filename
+            # Define the upload path
+            upload_path = os.path.join(current_app.root_path, 'static/images', filename)
+            # Save the file to the designated folder
+            photo_file.save(upload_path)
+            # Store the relative path to the image in the database
+            photo_path = f'static/images/{filename}'
+        else:
+            photo_path = None  # Handle the case where no photo was uploaded
         
         # Save to Candidat table
         candidat = Candidat(nom=nom, prenom=prenom, profession=profession, 
-                            photo=photo, election_id=election_id)
+                            photo=photo_path, election_id=election_id)
         db.session.add(candidat)
         db.session.commit()
         
         return redirect(url_for('main.create_candidate', election_id=election_id))
+    
     return render_template('candidate_form.html', election_id=election_id)
 
 
@@ -232,7 +249,7 @@ def vote():
         
         return redirect(url_for('main.login'))
     
-    candidats = Candidat.query.all()  # Get all candidates for display
+    candidats = Candidat.query.filter_by(election_id=election_id).all()  # Get all candidates for display
     return render_template('vote_form.html', candidats=candidats)
 
 # Step 5: Displaying Results

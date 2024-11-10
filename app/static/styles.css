@@ -5,7 +5,7 @@ body {
     color: #333;
     margin: 0;
     padding: 0;
-    overflow: hidden; /* Masque la barre de défilement */
+    overflow-y: auto;
 }
 
 header {

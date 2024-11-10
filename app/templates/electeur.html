@@ -10,6 +10,7 @@
             <th scope="col">CNE</th>
             <th scope="col">Prénom</th>
             <th scope="col">Nom</th>
+            <th scope="col">ID Election</th>
         </tr>
     </thead>
     <tbody>
@@ -18,6 +19,7 @@
             <td>{{ electeur['cne'] }}</td>
             <td>{{ electeur['prenom'] }}</td>
             <td>{{ electeur['nom'] }}</td>
+            <td>{{ electeur['election_id'] }}</td>
         </tr>
         {% endfor %}
     </tbody>
