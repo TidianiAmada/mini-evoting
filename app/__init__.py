@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 
 # Initialisation de l'extension SQLAlchemy
 db = SQLAlchemy()
-
+migrate= Migrate()
 def create_app():
     # Créer une instance de l'application Flask
     app = Flask(__name__)
@@ -14,7 +14,7 @@ def create_app():
     db.init_app(app)
 
     # Initialiser Flask-Migrate avec l'application et la base de données
-    migrate = Migrate(app, db)
+    migrate.init_app(app,db)
 
     # Enregistrer les routes
     from .routes import main
