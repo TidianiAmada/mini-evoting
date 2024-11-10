@@ -4,30 +4,95 @@
 <form method="POST" style="margin-bottom: 20px;">
     <div style="margin-bottom: 10px;">
         <label for="cne">CNE :</label>
-        <!-- <textarea name="cne" required style="width: 100%; padding: 5px;"></textarea> -->
         <input type="text" name="cne" required style="width: 100%; padding: 5px;">
     </div>
-    <div style="margin-bottom: 10px;">
-        <label for="premier_choix">Premier Choix:</label>
-        <select name="premier_choix" style="width: 100%; padding: 5px;">
+
+    <div style="margin-bottom: 20px;">
+        <label>Premier Choix:</label>
+        <div id="first-choice" class="candidate-grid">
             {% for candidat in candidats %}
-            <option value="{{ candidat.id_cnd }}">{{ candidat.nom }} {{ candidat.prenom }}</option>
+            <div class="candidate-card" onclick="selectCandidate('premier_choix', '{{ candidat.id_cnd }}')">
+                <input type="radio" name="premier_choix" id="first_{{ candidat.id_cnd }}" value="{{ candidat.id_cnd }}" style="display: none;">
+                <label for="first_{{ candidat.id_cnd }}">
+                    <img src="{{ url_for('static', filename='images/' + candidat.photo) }}" alt="{{ candidat.nom }} {{ candidat.prenom }}" class="candidate-photo">
+                    <p>{{ candidat.nom }} {{ candidat.prenom }}</p>
+                </label>
+            </div>
             {% endfor %}
-        </select>
+        </div>
     </div>
-    <div style="margin-bottom: 10px;">
-        <label for="second_choix">Second Choix:</label>
-        <select name="second_choix" style="width: 100%; padding: 5px;">
+
+    <div style="margin-bottom: 20px;">
+        <label>Second Choix:</label>
+        <div id="second-choice" class="candidate-grid">
             {% for candidat in candidats %}
-            <option value="{{ candidat.id_cnd }}">{{ candidat.nom }} {{ candidat.prenom }}</option>
+            <div class="candidate-card" id="second_{{ candidat.id_cnd }}" onclick="selectCandidate('second_choix', '{{ candidat.id_cnd }}')">
+                <input type="radio" name="second_choix" id="secondRadio_{{ candidat.id_cnd }}" value="{{ candidat.id_cnd }}" style="display: none;">
+                <label for="secondRadio_{{ candidat.id_cnd }}">
+                    <img src="{{ url_for('static',filename='images/' + candidat.photo) }}" alt="{{ candidat.nom }} {{ candidat.prenom }}" class="candidate-photo">
+                    <p>{{ candidat.nom }} {{ candidat.prenom }}</p>
+                </label>
+            </div>
             {% endfor %}
-        </select>
+        </div>
     </div>
+
     <button type="submit" style="margin-top: 10px;">Soumettre le Vote</button>
 </form>
+
 <form method="GET" action="{{ url_for('main.login') }}">
     <div style="text-align: center; margin-top: 20px;">
         <button type="submit">Retour</button>
     </div>
 </form>
+
+<script>
+function selectCandidate(choice, id) {
+    const selectedFirstChoice = document.querySelector('input[name="premier_choix"]:checked');
+    
+    if (choice === 'premier_choix') {
+        document.querySelectorAll('#second-choice .candidate-card').forEach(card => {
+            card.style.display = 'block';
+        });
+        
+        if (selectedFirstChoice) {
+            const selectedId = selectedFirstChoice.value;
+            document.querySelector(`#second_${selectedId}`).style.display = 'none';
+        }
+    }
+}
+</script>
+
+<style>
+.candidate-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.candidate-card {
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    width: 120px;
+    padding: 10px;
+}
+.candidate-photo {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.candidate-card label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-weight: bold;
+}
+.candidate-card input[type="radio"]:checked + label {
+    border: 2px solid #299B63;
+    color: #299B63;
+}
+</style>
 {% endblock %}

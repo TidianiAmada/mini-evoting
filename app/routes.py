@@ -54,6 +54,10 @@ def login():
                         session['user_id'] = row['cne']  # Store CNE in session
                         session['role'] = 'electeur'
                         elc=Electeur(cne=cne,nom=row['nom'],prenom=row['prenom'])
+                        existing_elc = Electeur.query.filter_by(cne=cne).first()
+                        if existing_elc:
+                            # User has already voted
+                            return render_template('error.html', message="Il n'est permit de voter qu'une seule fois")   
                         db.session.add(elc)
                         db.session.commit()
                         return redirect(url_for('main.vote', election_id=row['election_id']))
@@ -164,7 +168,7 @@ def create_candidate():
             # Save the file to the designated folder
             photo_file.save(upload_path)
             # Store the relative path to the image in the database
-            photo_path = f'static/images/{filename}'
+            photo_path = f'{filename}'
         else:
             photo_path = None  # Handle the case where no photo was uploaded
         
