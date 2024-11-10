@@ -1,4 +1,5 @@
 cne,prenom,nom,election_id
+<<<<<<< HEAD
 823-92,Arame, Diagne,1
 123-54,Mame Diarra, Gueye,1
 821-82,Diabou, Fofana,1
@@ -17,3 +18,12 @@ cne,prenom,nom,election_id
 376-40, Gaby, Diouf,1
 806-48,Monsieur,Faye,1
 
+=======
+821-92-2632,Issa,DIOUF,3
+123-54-1234,Khoudia,FALL,3
+821-92-2024,Hapsatou,THIAM,3
+821-12-2024,Bassirou,KANE,3
+721-22-2024,Khadidiatou,BA,3
+123-45-678,Manou,BA,8
+132-98-099,ggg,llll,8
+>>>>>>> d6e2e7a9b8b44669c61dde1e1622248fbb2302c7
