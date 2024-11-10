@@ -2,7 +2,7 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-3">
   <h2>LISTE DES CANDIDATS</h2>
-  <form method="GET" action="{{ url_for('main.create_candidate') }}">
+  <form method="GET" action="{{ url_for('main.create_candidate',election_id=election_id) }}">
     <label for="election_id">ID Election:</label>
     <input type="number" id="election_id" name="election_id" required>
     <button type="submit">Ajouter un candidat</button>
