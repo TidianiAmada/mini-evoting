@@ -1,20 +1,28 @@
 from flask import Blueprint,current_app, render_template, request, redirect, url_for, session, flash
+
+from app.facialrecognition import load_model, predict_user_identity
 from .models import db, Election, Candidat, Electeur, Vote, Voix, Organisateur
 from .services import count_vote
 from datetime import datetime
 import csv
 import os
+import base64
+from PIL import Image
+from io import BytesIO
+import numpy as np
 
 
 main = Blueprint('main', __name__)
 
 
 # Login for Organisateurs and Electeurs
+
+mlp_model = load_model()  # load once outside route
+
 @main.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        user_type = request.form['user_type']  # Organisateur or Electeur
-        
+        user_type = request.form['user_type']
         print(user_type)
         if user_type == 'organisateur':
             cni = request.form['cni']
@@ -36,39 +44,54 @@ def login():
 
         elif user_type == 'electeur':
             cne = request.form['cne']
-            
-            if not cne:
-                flash('CNE is required for Electeur')
+            captured_image_data = request.form['captured_image']
+
+            if not cne or not captured_image_data:
+                flash('CNE and selfie are required for Electeur')
                 return redirect(url_for('main.login'))
 
-            # Get the path to the CSV file in the project root
-            csv_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'fichier_electoral.csv')
+            # Decode the image from base64
+            try:
+                header, encoded = captured_image_data.split(',', 1)
+                image_data = base64.b64decode(encoded)
+                image = Image.open(BytesIO(image_data)).convert('RGB')
+                image = image.resize((100, 100))  # Resize to what your MLP expects
+                image_array = np.array(image).flatten() / 255.0  # normalize if needed
+            except Exception as e:
+                flash(f"Image processing failed: {e}")
+                return redirect(url_for('main.login'))
 
-            # Login as Electeur
+            # Predict using the model
+            predicted_cne = predict_user_identity(mlp_model, image_array)
+
+            if predicted_cne != cne:
+                return render_template('error.html', message="Vérification faciale échouée.")
+
+            # Continue with CSV lookup and login as before
+            csv_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'fichier_electoral.csv')
             cne_found = False
             with open(csv_file_path, newline='', encoding='ISO-8859-1') as csvfile:
                 reader = csv.DictReader(csvfile)
                 for row in reader:
                     if row['cne'] == cne:
                         cne_found = True
-                        session['user_id'] = row['cne']  # Store CNE in session
-                        session['role'] = 'electeur'
-                        elc=Electeur(cne=cne,nom=row['nom'],prenom=row['prenom'])
                         existing_elc = Electeur.query.filter_by(cne=cne).first()
                         if existing_elc:
-                            # User has already voted
-                            return render_template('error.html', message="Il n'est permit de voter qu'une seule fois")   
+                            return render_template('error.html', message="Il n'est permit de voter qu'une seule fois")
+                        elc = Electeur(cne=cne, nom=row['nom'], prenom=row['prenom'])
                         db.session.add(elc)
                         db.session.commit()
+                        session['user_id'] = cne
+                        session['role'] = 'electeur'
                         return redirect(url_for('main.vote', election_id=row['election_id']))
 
             if not cne_found:
-                flash('Invalid credentials for Electeur')
-
-    # Clear only organisateur-specific session data
-    session.pop('user_id', None)  # Assuming 'user_id' holds the organiser's session info
-    session.pop('role', None)  # Remove the 'role' session
+                flash('CNE introuvable.')
+    
+    session.pop('user_id', None)
+    session.pop('role', None)
     return render_template('login.html')
+
 
 # Dashboard
 @main.route('/dashboard', methods=['GET', 'POST'])

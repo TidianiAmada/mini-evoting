@@ -15,10 +15,37 @@
     </div>
 
     <!-- Electeur Section -->
+    <!-- Inside Electeur Section -->
     <div id="electeurFields">
       <label for="cne">CNE:</label>
       <textarea name="cne"></textarea><br />
+
+      <!-- Video preview and capture -->
+      <label>Selfie (front camera):</label>
+      <video id="cameraPreview" autoplay playsinline width="200" height="150"></video><br />
+      <button type="button" onclick="captureImage()">Capture Selfie</button>
+      <input type="hidden" name="captured_image" id="capturedImage" />
+      <canvas id="canvas" style="display: none;"></canvas>
     </div>
+
+    <script>
+      // Get camera access
+      const video = document.getElementById('cameraPreview');
+
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
+        .then(stream => video.srcObject = stream)
+        .catch(err => console.error("Camera error:", err));
+
+      function captureImage() {
+        const canvas = document.getElementById('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext('2d').drawImage(video, 0, 0);
+        const imageData = canvas.toDataURL('image/png');
+        document.getElementById('capturedImage').value = imageData;
+      }
+    </script>
+
 
     <!-- Organisateur Section -->
     <div id="organisateurFields" style="display: none">
